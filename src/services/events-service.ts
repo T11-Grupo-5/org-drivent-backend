@@ -3,25 +3,46 @@ import dayjs from 'dayjs';
 import { notFoundError } from '@/errors';
 import { eventRepository } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
+import redis, { DEFAULT_EXP } from '@/config/redis';
 
-async function getFirstEvent(): Promise<GetFirstEventResult> {
-  const event = await eventRepository.findFirst();
-  if (!event) throw notFoundError();
+async function getFirstEvent() {
+  const cacheKey = 'firstEvent';
+  const cachedEvent = await redis.get(cacheKey);
 
-  return exclude(event, 'createdAt', 'updatedAt');
+  if (cachedEvent) {
+    return JSON.parse(cachedEvent);
+  } else {
+    const event = await eventRepository.findFirst();
+    if (!event) throw notFoundError();
+
+    const excludedEvent = exclude(event, 'createdAt', 'updatedAt');
+
+    await redis.setEx(cacheKey, DEFAULT_EXP, JSON.stringify(excludedEvent));
+
+    return excludedEvent;
+  }
 }
 
-export type GetFirstEventResult = Omit<Event, 'createdAt' | 'updatedAt'>;
-
 async function isCurrentEventActive(): Promise<boolean> {
-  const event = await eventRepository.findFirst();
-  if (!event) return false;
+  const cacheKey = 'isCurrentEventActive';
+  const cachedResult = await redis.get(cacheKey);
 
-  const now = dayjs();
-  const eventStartsAt = dayjs(event.startsAt);
-  const eventEndsAt = dayjs(event.endsAt);
+  if (cachedResult) {
+    return JSON.parse(cachedResult);
+  } else {
+    const event = await eventRepository.findFirst();
+    if (!event) return false;
 
-  return now.isAfter(eventStartsAt) && now.isBefore(eventEndsAt);
+    const now = dayjs();
+    const eventStartsAt = dayjs(event.startsAt);
+    const eventEndsAt = dayjs(event.endsAt);
+
+    const isActive = now.isAfter(eventStartsAt) && now.isBefore(eventEndsAt);
+
+    await redis.setEx(cacheKey, DEFAULT_EXP, JSON.stringify(isActive));
+
+    return isActive;
+  }
 }
 
 export const eventsService = {
