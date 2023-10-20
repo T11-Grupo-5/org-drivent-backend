@@ -6,21 +6,12 @@ import { exclude } from '@/utils/prisma-utils';
 import redis, { DEFAULT_EXP } from '@/config/redis';
 
 async function getFirstEvent() {
-  const cacheKey = 'firstEvent';
-  const cachedEvent = await redis.get(cacheKey);
+  const event = await eventRepository.findFirst();
+  if (!event) throw notFoundError();
 
-  if (cachedEvent) {
-    return JSON.parse(cachedEvent);
-  } else {
-    const event = await eventRepository.findFirst();
-    if (!event) throw notFoundError();
+  const excludedEvent = exclude(event, 'createdAt', 'updatedAt');
 
-    const excludedEvent = exclude(event, 'createdAt', 'updatedAt');
-
-    await redis.setEx(cacheKey, DEFAULT_EXP, JSON.stringify(excludedEvent));
-
-    return excludedEvent;
-  }
+  return excludedEvent;
 }
 
 async function isCurrentEventActive(): Promise<boolean> {

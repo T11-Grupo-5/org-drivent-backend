@@ -22,19 +22,10 @@ async function validateUserBooking(userId: number) {
 async function getHotels(userId: number) {
   await validateUserBooking(userId);
 
-  const cacheKey = 'hotels';
-  const cachedHotels = await redis.get(cacheKey);
+  const hotels = await hotelRepository.findHotels();
+  if (hotels.length === 0) throw notFoundError();
 
-  if (cachedHotels) {
-    return JSON.parse(cachedHotels);
-  } else {
-    const hotels = await hotelRepository.findHotels();
-    if (hotels.length === 0) throw notFoundError();
-
-    await redis.setEx(cacheKey, DEFAULT_EXP, JSON.stringify(hotels));
-
-    return hotels;
-  }
+  return hotels;
 }
 
 async function getHotelsWithRooms(userId: number, hotelId: number) {
