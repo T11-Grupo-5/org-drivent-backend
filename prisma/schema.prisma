@@ -115,7 +115,6 @@ model Hotel {
   image     String
   Rooms     Room[]
   Halls     Hall[]
-  Activities Activity[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -146,6 +145,7 @@ model Hall {
   name      String
   hotelId   Int
   Hotel     Hotel     @relation(fields: [hotelId], references: [id])
+  Activities Activity[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -157,8 +157,8 @@ model Activity {
   startTime DateTime
   endTime   DateTime
   Days      Day[]
-  hotelId   Int
-  Hotel     Hotel     @relation(fields: [hotelId], references: [id])
+  halllId   Int
+  Hall      Hall     @relation(fields: [halllId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
