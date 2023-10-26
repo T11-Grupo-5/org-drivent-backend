@@ -19,6 +19,7 @@ model User {
   Session    Session[]
   Enrollment Enrollment[]
   Booking    Booking?
+  Activity   Activity[]
 }
 
 model Session {
@@ -115,6 +116,7 @@ model Hotel {
   image     String
   Rooms     Room[]
   Halls     Hall[]
+  Days      Day[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -159,6 +161,7 @@ model Activity {
   Days      Day[]
   halllId   Int
   Hall      Hall     @relation(fields: [halllId], references: [id])
+  Users     User[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -167,8 +170,9 @@ model Day {
   id        Int       @id @default(autoincrement())
   dayName   String
   date      DateTime
-  activityId  Int
-  Activity  Activity  @relation(fields: [activityId], references: [id])
+  hotelId   Int
+  Hotel     Hotel     @relation(fields: [hotelId], references: [id])
+  Activity  Activity[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
