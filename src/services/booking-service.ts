@@ -53,8 +53,15 @@ async function changeBookingRoomById(userId: number, roomId: number) {
   });
 }
 
+async function getBookingsByRoomId(roomId: number) {
+  if (!roomId) throw notFoundError();
+
+  return bookingRepository.findByRoomId(roomId);
+}
+
 export const bookingService = {
   bookRoomById,
   getBooking,
   changeBookingRoomById,
+  getBookingsByRoomId,
 };
