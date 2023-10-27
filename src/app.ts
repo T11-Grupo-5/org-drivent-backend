@@ -13,6 +13,7 @@ import {
   hotelsRouter,
   bookingRouter,
   activityRouter,
+  daysRouter,
 } from '@/routers';
 import { loadEnv, connectDb, disconnectDB } from '@/config';
 
@@ -32,6 +33,7 @@ app
   .use('/hotels', hotelsRouter)
   .use('/booking', bookingRouter)
   .use('/activity', activityRouter)
+  .use('/Days', daysRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
