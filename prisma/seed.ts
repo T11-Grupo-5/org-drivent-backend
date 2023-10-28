@@ -171,6 +171,118 @@ async function main() {
       console.log({ HallData });
     }
   }
+  //Seed Day
+  const days = await prisma.day.findFirst();
+  if (!days) {
+    const data = [
+      {
+        dayName: 'Sexta',
+        date: dayjs().toDate(),
+      },
+      {
+        dayName: 'Sábado',
+        date: dayjs().add(1, 'day').toDate(),
+      },
+      {
+        dayName: 'Domingo',
+        date: dayjs().add(2, 'day').toDate(),
+      },
+    ];
+    for (const DayData of data) {
+      await prisma.day.create({ data: DayData });
+      console.log({ DayData });
+    }
+  }
+  //Seed Activity
+  const activities = await prisma.activity.findFirst();
+  if (!activities) {
+    const data = [
+      {
+        name: 'Minecraft: montando o PC ideal',
+        capacity: 27,
+        startTime: dayjs().set('hour', 9).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        dayId: 1,
+        hallId: 1,
+      },
+      {
+        name: 'LoL: montando o PC ideal',
+        capacity: 0,
+        startTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 11).set('minute', 0).set('second', 0).toDate(),
+        dayId: 1,
+        hallId: 1,
+      },
+      {
+        name: 'Palestra x',
+        capacity: 27,
+        startTime: dayjs().set('hour', 9).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 11).set('minute', 0).set('second', 0).toDate(),
+        dayId: 1,
+        hallId: 2,
+      },
+      {
+        name: 'Palestra y',
+        capacity: 27,
+        startTime: dayjs().set('hour', 9).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        dayId: 1,
+        hallId: 3,
+      },
+      {
+        name: 'Palestra z',
+        capacity: 0,
+        startTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 11).set('minute', 0).set('second', 0).toDate(),
+        dayId: 1,
+        hallId: 3,
+      },
+      {
+        name: 'Minecraft: montando o PC ideal',
+        capacity: 27,
+        startTime: dayjs().set('hour', 9).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        dayId: 2,
+        hallId: 1,
+      },
+      {
+        name: 'LoL: montando o PC ideal',
+        capacity: 0,
+        startTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 11).set('minute', 0).set('second', 0).toDate(),
+        dayId: 2,
+        hallId: 1,
+      },
+      {
+        name: 'Minecraft: montando o PC ideal',
+        capacity: 27,
+        startTime: dayjs().set('hour', 9).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        dayId: 3,
+        hallId: 1,
+      },
+      {
+        name: 'Minecraft: montando o PC ideal',
+        capacity: 0,
+        startTime: dayjs().set('hour', 10).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 11).set('minute', 0).set('second', 0).toDate(),
+        dayId: 3,
+        hallId: 1,
+      },
+      {
+        name: 'Minecraft: montando o PC ideal',
+        capacity: 27,
+        startTime: dayjs().set('hour', 9).set('minute', 0).set('second', 0).toDate(),
+        endTime: dayjs().set('hour', 10).set('minute', 30).set('second', 0).toDate(),
+        dayId: 3,
+        hallId: 2,
+      },
+    ];
+    for (const ActivitiesData of data) {
+      await prisma.activity.create({ data: ActivitiesData });
+      console.log({ ActivitiesData });
+    }
+  }
 }
 
 main()

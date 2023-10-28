@@ -1,13 +1,10 @@
+import { get } from 'http';
 import { prisma } from '@/config';
 
 export async function FindActivityByDayId(DayId: number) {
   return await prisma.activity.findMany({
     where: {
-      Days: {
-        some: {
-          id: DayId,
-        },
-      },
+      dayId: DayId,
     },
     include: { Users: { select: { id: true } } },
   });
@@ -39,5 +36,20 @@ export async function InsertUserActivity(activityId: number, UserId: number) {
       },
     },
     include: { Users: true },
+  });
+}
+
+export async function getAllHallsByDay(dayId: number) {
+  return await prisma.hall.findMany({
+    include: {
+      Activities: true,
+    },
+    where: {
+      Activities: {
+        some: {
+          dayId: dayId,
+        },
+      },
+    },
   });
 }
