@@ -12,6 +12,7 @@ export async function FindActivityByDayId(DayId: number) {
     include: { Users: { select: { id: true } } },
   });
 }
+
 export async function getAllDays() {
   return await prisma.day.findMany({});
 }
