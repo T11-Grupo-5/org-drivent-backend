@@ -1,4 +1,3 @@
-import { get } from 'http';
 import { prisma } from '@/config';
 
 export async function FindActivityByDayId(DayId: number) {
@@ -39,7 +38,7 @@ export async function InsertUserActivity(activityId: number, UserId: number) {
   });
 }
 
-export async function getAllHallsByDay(dayId: number) {
+export async function FindHallsByDay(dayId: number) {
   return await prisma.hall.findMany({
     include: {
       Activities: true,
