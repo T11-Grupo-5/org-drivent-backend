@@ -8,3 +8,4 @@ export * from './hotels-controller';
 export * from './booking-controller';
 export * from './activity-controller';
 export * from './day-controller';
+export * from './hall-controller';
