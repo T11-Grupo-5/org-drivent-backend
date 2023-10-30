@@ -34,8 +34,8 @@ app
   .use('/hotels', hotelsRouter)
   .use('/booking', bookingRouter)
   .use('/activity', activityRouter)
-  .use('/Days', daysRouter)
-  .use('/Halls', HallRouter)
+  .use('/days', daysRouter)
+  .use('/halls', HallRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
