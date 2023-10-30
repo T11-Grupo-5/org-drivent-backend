@@ -4,10 +4,6 @@ import { authenticateToken } from '@/middlewares';
 
 const activityRouter = Router();
 
-activityRouter
-  .all('/*', authenticateToken)
-  .get('/:DayId', getActivitys)
-  .put('/:activityId', upActivitys)
-  .get('/halls/:DayId', getHallsByDayId);
+activityRouter.all('/*', authenticateToken).put('/:activityId', upActivitys).get('/:DayId', getActivitys);
 
 export { activityRouter };
