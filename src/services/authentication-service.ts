@@ -42,6 +42,12 @@ async function validatePasswordOrFail(password: string, userPassword: string) {
   if (!isPasswordValid) throw invalidCredentialsError();
 }
 
+async function exchangeCodeForAcessToken(code: string) {
+  const token = await authenticationRepository.getAcessToken(code);
+  const user = await authenticationRepository.fetchUser(token);
+  return user;
+}
+
 export type SignInParams = Pick<User, 'email' | 'password'>;
 
 type SignInResult = {
@@ -53,4 +59,5 @@ type GetUserOrFailResult = Pick<User, 'id' | 'email' | 'password'>;
 
 export const authenticationService = {
   signIn,
+  exchangeCodeForAcessToken,
 };
