@@ -155,10 +155,9 @@ model Activity {
   capacity  Int
   startTime DateTime
   endTime   DateTime
-  dayId     Int
-  Day       Day       @relation(fields: [dayId], references: [id])
-  hallId    Int
-  Hall      Hall     @relation(fields: [hallId], references: [id])
+  Days      Day[]
+  halllId   Int
+  Hall      Hall     @relation(fields: [halllId], references: [id])
   Users     User[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

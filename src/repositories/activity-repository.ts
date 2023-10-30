@@ -3,7 +3,11 @@ import { prisma } from '@/config';
 export async function FindActivityByDayId(DayId: number) {
   return await prisma.activity.findMany({
     where: {
-      dayId: DayId,
+      Days: {
+        some: {
+          id: DayId,
+        },
+      },
     },
     include: { Users: { select: { id: true } } },
   });
@@ -46,7 +50,7 @@ export async function FindHallsByDay(dayId: number) {
     where: {
       Activities: {
         some: {
-          dayId: dayId,
+          id: dayId,
         },
       },
     },
