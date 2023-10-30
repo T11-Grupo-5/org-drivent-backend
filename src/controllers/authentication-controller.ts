@@ -9,3 +9,11 @@ export async function singInPost(req: Request, res: Response) {
 
   return res.status(httpStatus.OK).send(result);
 }
+
+export async function checkCode(req: Request, res: Response) {
+  const { code } = req.body;
+
+  const result = await authenticationService.exchangeCodeForAcessToken(code);
+
+  return res.status(httpStatus.OK).send(result);
+}
