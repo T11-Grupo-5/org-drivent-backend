@@ -8,3 +8,4 @@ export * from './hotels-service';
 export * from './booking-service';
 export * from './activity-service';
 export * from './day-service';
+export * from './hall-service';

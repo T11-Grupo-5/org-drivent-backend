@@ -8,3 +8,4 @@ export * from './hotels-router';
 export * from './booking-router';
 export * from './activity-router';
 export * from './day-router';
+export * from './hall-router';
